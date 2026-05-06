@@ -24,59 +24,33 @@
 <body class="p-4">
 
     <div id="login-page" class="max-w-md mx-auto mt-20 p-8 glass rounded-3xl text-center">
-        <h1 class="text-3xl font-bold mb-6 text-emerald-400">ห้อง 924 (Realtime)</h1>
+        <h1 class="text-3xl font-bold mb-6 text-emerald-400">ห้อง 924 Digital</h1>
         <input type="number" id="login-id" placeholder="เลขประจำตัว 5 หลัก" class="w-full p-4 rounded-2xl bg-slate-900 border border-slate-700 mb-4 text-center text-xl focus:outline-none focus:border-emerald-500">
         <button onclick="handleLogin()" class="w-full bg-emerald-500 py-4 rounded-2xl font-bold text-lg hover:bg-emerald-600 transition">เข้าสู่ระบบ</button>
     </div>
 
-    <div id="news-page" class="max-w-4xl mx-auto space-y-6 hidden-page py-10">
+    <div id="main-menu" class="max-w-4xl mx-auto space-y-6 hidden-page py-10">
         <div class="flex justify-between items-center px-4">
             <span id="user-display" class="text-emerald-400 font-bold"></span>
             <button onclick="logout()" class="text-xs text-slate-500 underline">ออกจากระบบ</button>
         </div>
         <div class="glass p-8 rounded-3xl border-l-8 border-emerald-500 shadow-xl">
-            <h2 class="text-2xl font-bold mb-4">📢 เมนูระบบ</h2>
+            <h2 class="text-2xl font-bold mb-4">📢 ระบบออนไลน์เรียลไทม์</h2>
             <div class="space-y-3">
                 <div class="bg-slate-800/50 p-4 rounded-xl cursor-pointer hover:bg-slate-800 transition" onclick="showPage('seat-page')">
-                    <p class="font-bold text-emerald-400">📍 จองที่นั่ง (Realtime)</p>
+                    <p class="font-bold text-emerald-400">📍 จองที่นั่ง (ข้อมูลเด้งทันที)</p>
                 </div>
                 <div class="bg-slate-800/50 p-4 rounded-xl cursor-pointer hover:bg-slate-800 transition" onclick="showPage('vote-page')">
-                    <p class="font-bold text-amber-400">🗳️ โหวตหัวหน้าห้อง (Realtime)</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="vote-page" class="max-w-2xl mx-auto hidden-page py-10">
-        <button onclick="showPage('news-page')" class="mb-6 text-slate-400 flex items-center gap-2">⬅ กลับหน้าหลัก</button>
-        <h2 class="text-3xl font-bold mb-8 text-center text-amber-400">🗳️ เปลี่ยนหัวหน้าห้องหรือไม่?</h2>
-        <div id="vote-section" class="grid grid-cols-2 gap-4 mb-10 text-center">
-            <button onclick="submitVote('no')" class="vote-card p-6 rounded-3xl">
-                <p class="text-3xl mb-2">🤝</p><p class="font-bold text-emerald-400">ไม่เปลี่ยน</p>
-            </button>
-            <button onclick="submitVote('yes')" class="vote-card p-6 rounded-3xl">
-                <p class="text-3xl mb-2">🔄</p><p class="font-bold text-red-400">เปลี่ยน</p>
-            </button>
-        </div>
-        <div class="glass p-8 rounded-3xl text-center">
-            <h3 class="font-bold mb-6">คะแนนโหวตสด</h3>
-            <div class="space-y-6">
-                <div>
-                    <div class="flex justify-between mb-2"><span>ไม่เปลี่ยน</span> <span id="count-no" class="font-bold">0</span></div>
-                    <div class="w-full bg-slate-800 h-3 rounded-full"><div id="bar-no" class="h-full bg-emerald-500 w-0 transition-all"></div></div>
-                </div>
-                <div>
-                    <div class="flex justify-between mb-2 text-red-400"><span>เปลี่ยน</span> <span id="count-yes" class="font-bold">0</span></div>
-                    <div class="w-full bg-slate-800 h-3 rounded-full"><div id="bar-yes" class="h-full bg-red-500 w-0 transition-all"></div></div>
+                    <p class="font-bold text-amber-400">🗳️ โพลล์หัวหน้าห้อง (คะแนนสด)</p>
                 </div>
             </div>
         </div>
     </div>
 
     <div id="seat-page" class="max-w-6xl mx-auto hidden-page py-10">
-        <button onclick="showPage('news-page')" class="mb-6 text-slate-400 flex items-center gap-2">⬅ กลับหน้าหลัก</button>
-        <div class="glass rounded-[40px] p-10 relative overflow-x-auto min-w-[800px] border-2 border-slate-800">
-            <div class="tv-board w-full py-4 rounded-2xl text-center mb-16 shadow-lg"><strong>กระดาน / TV</strong></div>
+        <button onclick="showPage('main-menu')" class="mb-6 text-slate-400">⬅ กลับหน้าหลัก</button>
+        <div class="glass rounded-[40px] p-10 overflow-x-auto min-w-[800px] border-2 border-slate-800">
+            <div class="tv-board w-full py-4 rounded-2xl text-center mb-16"><strong>กระดาน / TV</strong></div>
             <div class="grid grid-cols-4 gap-12 mt-10">
                 <div class="grid grid-cols-2 gap-3" id="zone-1"></div>
                 <div class="grid grid-cols-2 gap-3" id="zone-2"></div>
@@ -86,14 +60,27 @@
         </div>
     </div>
 
+    <div id="vote-page" class="max-w-2xl mx-auto hidden-page py-10">
+        <button onclick="showPage('main-menu')" class="mb-6 text-slate-400">⬅ กลับหน้าหลัก</button>
+        <h2 class="text-3xl font-bold mb-8 text-center text-amber-400">🗳️ เปลี่ยนหัวหน้าหรือไม่?</h2>
+        <div class="grid grid-cols-2 gap-4 mb-10 text-center">
+            <button onclick="submitVote('no')" class="vote-card p-6 rounded-3xl bg-slate-800">ไม่เปลี่ยน</button>
+            <button onclick="submitVote('yes')" class="vote-card p-6 rounded-3xl bg-slate-800">เปลี่ยน</button>
+        </div>
+        <div class="glass p-8 rounded-3xl">
+            <div class="flex justify-between mb-2"><span>ไม่เปลี่ยน: <span id="count-no">0</span></span> <span>เปลี่ยน: <span id="count-yes">0</span></span></div>
+            <div class="w-full bg-slate-900 h-4 rounded-full overflow-hidden flex">
+                <div id="bar-no" class="h-full bg-emerald-500 transition-all duration-500" style="width: 50%"></div>
+                <div id="bar-yes" class="h-full bg-red-500 transition-all duration-500" style="width: 50%"></div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // --- 1. การตั้งค่า Firebase (นำจากหน้า Console มาใส่ตรงนี้) ---
-        const firebaseConfig = {
-            // --- การตั้งค่า Firebase (อัปเดตจากรหัสของคุณแล้ว) ---
+        // --- 1. ตั้งค่า Firebase (กุญแจเชื่อมต่อของคุณ) ---
         const firebaseConfig = {
             apiKey: "AIzaSyCwVwkL25oDdrFCRKsb8f8XUnF5eg_LH_4",
             authDomain: "room924-wed.firebaseapp.com",
-            // เพิ่ม databaseURL ให้ถูกต้องเพื่อให้ Realtime Database ทำงาน
             databaseURL: "https://room924-wed-default-rtdb.asia-southeast1.firebasedatabase.app",
             projectId: "room924-wed",
             storageBucket: "room924-wed.firebasestorage.app",
@@ -102,125 +89,73 @@
             measurementId: "G-KC1HW6KMFC"
         };
 
-        // เริ่มต้นการเชื่อมต่อ
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-        };
-
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // --- 2. ข้อมูลพื้นฐาน ---
+        // --- 2. ข้อมูลระบบ ---
         const ADMIN_PASS = "30102554"; 
         let currentUser = null;
-        const students = {
-            "52429": { name: "กนกธร", no: 1 }, "52430": { name: "กันต์ธีร์", no: 2 },
-            "52431": { name: "ชาญณรงค์", no: 3 }, "52432": { name: "ชินดนัย", no: 4 },
-            "52433": { name: "ณัฏฐธนัท", no: 5 }, "52434": { name: "ณัฏฐกรณ์", no: 6 },
-            "52435": { name: "ธนกฤช", no: 7 }, "52436": { name: "ธนพล", no: 8 },
-            "52437": { name: "ภัสกรณ์", no: 9 }, "52438": { name: "ปฏิภาณ", no: 10 },
-            "52439": { name: "ปวณ์รัฐ", no: 11 }, "52440": { name: "ปัณณวิชญ์", no: 12 },
-            "52441": { name: "พุฒิเศรษฐ์", no: 13 }, "52442": { name: "ภูมิศรัณย์", no: 14 },
-            "52443": { name: "มกรา", no: 15 }, "52444": { name: "เมธานันท์", no: 16 },
-            "52445": { name: "หฤษฎ์", no: 17 }, "52446": { name: "กรกณัฐ", no: 18 },
-            "52447": { name: "เกวลิน", no: 19 }, "52448": { name: "จิราภัสส์", no: 20 },
-            "52449": { name: "ฐิติยารัตน์", no: 21 }, "52450": { name: "ณัฐวิภรณ์", no: 22 },
-            "52451": { name: "ปพิชญา", no: 23 }, "52452": { name: "ปภาดา", no: 24 },
-            "52453": { name: "ปภาดา", no: 25 }, "52454": { name: "เปมิกา", no: 26 },
-            "52455": { name: "พิมพ์ชนก", no: 27 }, "52456": { name: "พิมพ์พิสาข์", no: 28 },
-            "52457": { name: "พิมพ์วิภา", no: 29 }, "52458": { name: "เพียงลดา", no: 30 },
-            "52459": { name: "ภัสรดา", no: 31 }, "52460": { name: "ภัสรดา", no: 32 },
-            "52461": { name: "สุพิชญ์นันท์", no: 33 }, "52462": { name: "อรนิชชา", no: 34 },
-            "52463": { name: "อรัญรดา", no: 35 }, "52464": { name: "อัญญภัสสร", no: 36 }
-        };
-        const seatMapping = {
-            "zone-1": [1, 2, 9, 10, 17, 18, 25, 26, 31, 32],
-            "zone-2": [3, 4, 11, 12, 19, 20, 27, 28, 33, 34],
-            "zone-3": [5, 6, 13, 14, 21, 22, 29, 30, 35, 36],
-            "zone-4": [7, 8, 15, 16, 23, 24]
-        };
+        const students = { "52429":{name:"กนกธร",no:1}, "52430":{name:"กันต์ธีร์",no:2}, "52431":{name:"ชาญณรงค์",no:3}, "52432":{name:"ชินดนัย",no:4}, "52433":{name:"ณัฏฐธนัท",no:5}, "52434":{name:"ณัฏฐกรณ์",no:6}, "52435":{name:"ธนกฤช",no:7}, "52436":{name:"ธนพล",no:8}, "52437":{name:"ภัสกรณ์",no:9}, "52438":{name:"ปฏิภาณ",no:10}, "52439":{name:"ปวณ์รัฐ",no:11}, "52440":{name:"ปัณณวิชญ์",no:12}, "52441":{name:"พุฒิเศรษฐ์",no:13}, "52442":{name:"ภูมิศรัณย์",no:14}, "52443":{name:"มกรา",no:15}, "52444":{name:"เมธานันท์",no:16}, "52445":{name:"หฤษฎ์",no:17}, "52446":{name:"กรกณัฐ",no:18}, "52447":{name:"เกวลิน",no:19}, "52448":{name:"จิราภัสส์",no:20}, "52449":{name:"ฐิติยารัตน์",no:21}, "52450":{name:"ณัฐวิภรณ์",no:22}, "52451":{name:"ปพิชญา",no:23}, "52452":{name:"ปภาดา",no:24}, "52453":{name:"ปภาดา",no:25}, "52454":{name:"เปมิกา",no:26}, "52455":{name:"พิมพ์ชนก",no:27}, "52456":{name:"พิมพ์พิสาข์",no:28}, "52457":{name:"พิมพ์วิภา",no:29}, "52458":{name:"เพียงลดา",no:30}, "52459":{name:"ภัสรดา",no:31}, "52460":{name:"ภัสรดา",no:32}, "52461":{name:"สุพิชญ์นันท์",no:33}, "52462":{name:"อรนิชชา",no:34}, "52463":{name:"อรัญรดา",no:35}, "52464":{name:"อัญญภัสสร",no:36} };
+        const seatMapping = { "zone-1": [1, 2, 9, 10, 17, 18, 25, 26, 31, 32], "zone-2": [3, 4, 11, 12, 19, 20, 27, 28, 33, 34], "zone-3": [5, 6, 13, 14, 21, 22, 29, 30, 35, 36], "zone-4": [7, 8, 15, 16, 23, 24] };
 
-        // --- 3. ฟังก์ชันการทำงานแบบ Realtime ---
-        
-        // ฟังข้อมูลที่นั่งจาก Firebase
-        db.ref('seats').on('value', (snapshot) => {
-            const data = snapshot.val() || {};
-            renderSeats(data);
-        });
+        // --- 3. ฟังก์ชันหลัก ---
 
-        // ฟังข้อมูลโหวตจาก Firebase
-        db.ref('votes').on('value', (snapshot) => {
-            const data = snapshot.val() || { yes: 0, no: 0 };
-            updateVoteVisuals(data);
-        });
+        // ฟังข้อมูลจาก Firebase แบบเรียลไทม์
+        db.ref('seats').on('value', (snap) => renderSeats(snap.val() || {}));
+        db.ref('votes').on('value', (snap) => updateVoteVisuals(snap.val() || {yes:0, no:0}));
 
         function handleLogin() {
-            const input = document.getElementById('login-id').value;
-            if (students[input]) {
-                currentUser = { id: input, name: students[input].name, no: students[input].no };
-                document.getElementById('user-display').innerText = `คนจอง: ${currentUser.name}`;
-                showPage('news-page');
-            } else alert("ไม่พบเลขประจำตัว!");
+            const id = document.getElementById('login-id').value;
+            if (students[id]) {
+                currentUser = { id, ...students[id] };
+                document.getElementById('user-display').innerText = `สวัสดี, ${currentUser.name}`;
+                showPage('main-menu');
+            } else alert("ไม่พบข้อมูล!");
         }
 
-        function logout() { currentUser = null; showPage('login-page'); }
-
-        function showPage(pageId) {
-            ['login-page', 'news-page', 'seat-page', 'vote-page'].forEach(id => document.getElementById(id).classList.add('hidden-page'));
-            document.getElementById(pageId).classList.remove('hidden-page');
+        function showPage(id) {
+            ['login-page', 'main-menu', 'seat-page', 'vote-page'].forEach(p => document.getElementById(p).classList.add('hidden-page'));
+            document.getElementById(id).classList.remove('hidden-page');
         }
 
-        function renderSeats(allSeatsData) {
+        function renderSeats(allData) {
             Object.keys(seatMapping).forEach(zoneId => {
                 const zone = document.getElementById(zoneId); zone.innerHTML = '';
                 seatMapping[zoneId].forEach(num => {
-                    const data = allSeatsData[num];
-                    const isOccupied = !!data;
+                    const data = allData[num];
                     const div = document.createElement('div');
-                    div.className = `seat rounded-2xl flex flex-col items-center justify-center p-2 text-center ${isOccupied ? 'occupied' : ''}`;
-                    div.innerHTML = `
-                        <span class="text-[9px] opacity-40">ที่ ${num}</span>
-                        <span class="text-xl">${isOccupied ? '🧑‍🎓' : '🪑'}</span>
-                        <span class="text-[10px] font-bold">${isOccupied ? data.nickname : 'ว่าง'}</span>
-                    `;
-                    div.onclick = () => isOccupied ? removeSeat(num) : selectSeat(num);
+                    div.className = `seat rounded-2xl flex flex-col items-center justify-center p-2 ${data ? 'occupied' : ''}`;
+                    div.innerHTML = `<span>${data ? '🧑‍🎓' : '🪑'}</span><span class="text-[10px] font-bold">${data ? data.nick : 'ที่ '+num}</span>`;
+                    div.onclick = () => data ? removeSeat(num) : selectSeat(num);
                     zone.appendChild(div);
                 });
             });
         }
 
         function selectSeat(num) {
-            const nick = prompt(`คุณต้องการจองที่นั่งที่ ${num}\nใส่ชื่อเล่นของคุณ:`);
-            if (nick) {
-                db.ref('seats/' + num).set({ 
-                    name: currentUser.name, nickname: nick, no: currentUser.no, id: currentUser.id 
-                });
-            }
+            const nick = prompt("ใส่ชื่อเล่นเพื่อจอง:");
+            if (nick) db.ref('seats/'+num).set({ name: currentUser.name, nick, id: currentUser.id });
         }
 
         function removeSeat(num) {
-            if (prompt("ใส่รหัสรหัสแอดมินเพื่อลบ:") === ADMIN_PASS) {
-                db.ref('seats/' + num).remove();
-            } else alert("รหัสผิด!");
+            if (prompt("รหัสแอดมินเพื่อลบ:") === ADMIN_PASS) db.ref('seats/'+num).remove();
         }
 
         function submitVote(type) {
-            // เช็กการโหวตซ้ำผ่าน LocalStorage เครื่องตัวเอง
-            if (localStorage.getItem(`voted_924_${currentUser.id}`)) return alert("คุณโหวตไปแล้ว!");
-            
-            // อ่านคะแนนปัจจุบันแล้วบวกเพิ่มใน Firebase
-            db.ref('votes/' + type).transaction((current) => (current || 0) + 1);
-            localStorage.setItem(`voted_924_${currentUser.id}`, "true");
-            alert("โหวตสำเร็จ!");
+            if (localStorage.getItem('voted_'+currentUser.id)) return alert("โหวตไปแล้ว!");
+            db.ref('votes/'+type).transaction(c => (c || 0) + 1);
+            localStorage.setItem('voted_'+currentUser.id, true);
         }
 
-        function updateVoteVisuals(votes) {
-            const total = (votes.yes || 0) + (votes.no || 0) || 1;
-            document.getElementById('count-yes').innerText = votes.yes || 0;
-            document.getElementById('count-no').innerText = votes.no || 0;
-            document.getElementById('bar-yes').style.width = ((votes.yes || 0)/total*100) + "%";
-            document.getElementById('bar-no').style.width = ((votes.no || 0)/total*100) + "%";
+        function updateVoteVisuals(v) {
+            const total = v.yes + v.no || 1;
+            document.getElementById('count-yes').innerText = v.yes;
+            document.getElementById('count-no').innerText = v.no;
+            document.getElementById('bar-yes').style.width = (v.yes/total*100) + "%";
+            document.getElementById('bar-no').style.width = (v.no/total*100) + "%";
         }
+
+        function logout() { currentUser = null; showPage('login-page'); }
     </script>
 </body>
 </html>
