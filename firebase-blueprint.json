@@ -1,0 +1,65 @@
+{
+  "entities": {
+    "Identity": {
+      "title": "Identity",
+      "description": "Maps an anonymous auth UID to a student ID",
+      "type": "object",
+      "properties": {
+        "studentId": { "type": "string", "description": "The 5-digit student ID" },
+        "isAdmin": { "type": "boolean", "description": "True if admin" },
+        "createdAt": { "type": "number", "description": "Creation timestamp" }
+      },
+      "required": ["studentId", "createdAt"]
+    },
+    "Seat": {
+      "title": "Seat",
+      "description": "Represents a seat in the classroom",
+      "type": "object",
+      "properties": {
+        "studentId": { "type": "string", "description": "The 5-digit student ID" },
+        "updatedAt": { "type": "number", "description": "Update timestamp" }
+      },
+      "required": ["studentId", "updatedAt"]
+    },
+    "Vote": {
+      "title": "Vote",
+      "description": "A vote on the class leader",
+      "type": "object",
+      "properties": {
+        "decision": { "type": "string", "enum": ["keep", "change"] },
+        "updatedAt": { "type": "number", "description": "Update timestamp" }
+      },
+      "required": ["decision", "updatedAt"]
+    },
+    "Announcement": {
+      "title": "Announcement",
+      "description": "News board announcement",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "createdAt": { "type": "number" },
+        "authorId": { "type": "string" }
+      },
+      "required": ["title", "content", "createdAt", "authorId"]
+    }
+  },
+  "firestore": {
+    "/identities/{userId}": {
+      "schema": { "$ref": "#/entities/Identity" },
+      "description": "User identities linked by uid"
+    },
+    "/seats/{seatId}": {
+      "schema": { "$ref": "#/entities/Seat" },
+      "description": "Seat assignments, document ID is seat number 1-36"
+    },
+    "/votes/{studentId}": {
+      "schema": { "$ref": "#/entities/Vote" },
+      "description": "Votes, document ID is the studentId"
+    },
+    "/announcements/{announcementId}": {
+      "schema": { "$ref": "#/entities/Announcement" },
+      "description": "Announcements"
+    }
+  }
+}

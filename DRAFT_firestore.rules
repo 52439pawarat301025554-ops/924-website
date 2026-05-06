@@ -1,0 +1,87 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() { return request.auth != null; }
+    function existing() { return resource.data; }
+    function incoming() { return request.resource.data; }
+    function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
+    
+    function getIdentity() {
+      return get(/databases/$(database)/documents/identities/$(request.auth.uid)).data;
+    }
+    
+    function myStudentId() {
+      return getIdentity().studentId;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && exists(/databases/$(database)/documents/identities/$(request.auth.uid)) && myStudentId() == '30102554';
+    }
+
+    function isValidIdentity(data) {
+      return data.keys().size() == 2
+        && data.keys().hasAll(['studentId', 'createdAt'])
+        && data.studentId is string
+        && data.studentId.size() <= 8
+        && data.studentId.matches('^[0-9]{5,8}$')
+        && data.createdAt == request.time;
+    }
+
+    function isSeatValid(data) {
+      return data.keys().size() == 2
+        && data.keys().hasAll(['studentId', 'updatedAt'])
+        && data.studentId is string
+        && data.studentId.size() <= 8
+        && data.studentId.matches('^[0-9]{5,8}$')
+        && data.updatedAt == request.time;
+    }
+
+    function isVoteValid(data) {
+      return data.keys().size() == 2
+        && data.keys().hasAll(['decision', 'updatedAt'])
+        && data.decision is string
+        && data.decision.size() <= 6
+        && data.decision.matches('^(keep|change)$')
+        && data.updatedAt == request.time;
+    }
+
+    function isAnnouncementValid(data) {
+      return data.keys().size() == 4
+        && data.keys().hasAll(['title', 'content', 'createdAt', 'authorId'])
+        && data.title is string && data.title.size() > 0 && data.title.size() <= 100
+        && data.content is string && data.content.size() > 0 && data.content.size() <= 5000
+        && data.authorId is string && data.authorId == '30102554'
+        && data.createdAt == request.time;
+    }
+
+    match /identities/{userId} {
+      allow read: if isSignedIn() && request.auth.uid == userId;
+      allow create: if isSignedIn() && request.auth.uid == userId && isValidIdentity(incoming());
+      // No updates allowed, identities are immutable once set
+    }
+
+    match /seats/{seatId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && isValidId(seatId) && isSeatValid(incoming()) && (isAdmin() || incoming().studentId == myStudentId());
+      allow update: if isSignedIn() && isValidId(seatId) && isSeatValid(incoming()) && (isAdmin() || incoming().studentId == myStudentId() || existing().studentId == myStudentId());
+      allow delete: if isSignedIn() && isValidId(seatId) && (isAdmin() || existing().studentId == myStudentId());
+    }
+
+    match /votes/{studentId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && isValidId(studentId) && isVoteValid(incoming()) && studentId == myStudentId();
+      allow update: if isSignedIn() && isValidId(studentId) && isVoteValid(incoming()) && studentId == myStudentId() && incoming().diff(existing()).affectedKeys().hasOnly(['decision', 'updatedAt']);
+    }
+
+    match /announcements/{announcementId} {
+      allow read: if isSignedIn();
+      allow create: if isAdmin() && isValidId(announcementId) && isAnnouncementValid(incoming());
+      allow update: if isAdmin() && isValidId(announcementId) && isAnnouncementValid(incoming());
+      allow delete: if isAdmin() && isValidId(announcementId);
+    }
+  }
+}
