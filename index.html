@@ -19,28 +19,37 @@
     </style>
 </head>
 <body class="p-4">
-    <div id="login-page" class="max-w-md mx-auto mt-20 p-8 glass rounded-3xl text-center">
+    <div id="login-page" class="max-w-md mx-auto mt-20 p-8 glass rounded-3xl text-center shadow-2xl">
         <h1 class="text-3xl font-bold mb-6 text-emerald-400">ห้อง 924 เรียลไทม์</h1>
-        <input type="number" id="login-id" placeholder="เลขประจำตัว 5 หลัก" class="w-full p-4 rounded-2xl bg-slate-900 border border-slate-700 mb-4 text-center text-xl">
-        <button onclick="handleLogin()" class="w-full bg-emerald-500 py-4 rounded-2xl font-bold">เข้าสู่ระบบ</button>
+        <input type="number" id="login-id" placeholder="เลขประจำตัว 5 หลัก" class="w-full p-4 rounded-2xl bg-slate-900 border border-slate-700 mb-4 text-center text-xl text-white outline-none focus:border-emerald-500">
+        <button onclick="handleLogin()" class="w-full bg-emerald-500 py-4 rounded-2xl font-bold hover:bg-emerald-600 transition">เข้าสู่ระบบ</button>
     </div>
 
     <div id="news-page" class="max-w-4xl mx-auto space-y-6 hidden-page py-10">
-        <div class="flex justify-between items-center px-4"><span id="user-display" class="text-emerald-400 font-bold"></span><button onclick="logout()" class="text-xs underline">ออกจากระบบ</button></div>
+        <div class="flex justify-between items-center px-4">
+            <span id="user-display" class="text-emerald-400 font-bold text-lg"></span>
+            <button onclick="logout()" class="text-xs underline text-slate-400 hover:text-white">ออกจากระบบ</button>
+        </div>
         <div class="glass p-8 rounded-3xl border-l-8 border-emerald-500 shadow-xl">
-            <h2 class="text-2xl font-bold mb-4">📢 ประกาศออนไลน์</h2>
-            <div class="space-y-3">
-                <div class="bg-slate-800/50 p-4 rounded-xl cursor-pointer" onclick="showPage('seat-page')">📍 ผังที่นั่ง (ออนไลน์)</div>
-                <div class="bg-slate-800/50 p-4 rounded-xl cursor-pointer" onclick="showPage('vote-page')">🗳️ โพลล์เลือกหัวหน้า (สด)</div>
+            <h2 class="text-2xl font-bold mb-6 italic text-emerald-300">📢 ประกาศออนไลน์</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-slate-800/50 p-6 rounded-2xl cursor-pointer hover:bg-slate-800 border border-transparent hover:border-emerald-500/50 transition shadow-inner" onclick="showPage('seat-page')">
+                    <p class="text-xl font-bold text-emerald-400 mb-1">📍 ผังที่นั่ง (ออนไลน์)</p>
+                    <p class="text-sm text-slate-400">กดเพื่อเลือกที่นั่งแบบเรียลไทม์</p>
+                </div>
+                <div class="bg-slate-800/50 p-6 rounded-2xl cursor-pointer hover:bg-slate-800 border border-transparent hover:border-amber-500/50 transition shadow-inner" onclick="showPage('vote-page')">
+                    <p class="text-xl font-bold text-amber-400 mb-1">🗳️ โพลล์เลือกหัวหน้า (สด)</p>
+                    <p class="text-sm text-slate-400">โหวตเพื่อการเปลี่ยนแปลงที่โปร่งใส</p>
+                </div>
             </div>
         </div>
     </div>
 
     <div id="seat-page" class="max-w-6xl mx-auto hidden-page py-10">
-        <button onclick="showPage('news-page')" class="mb-6">⬅ กลับหน้าหลัก</button>
-        <div class="glass rounded-[40px] p-10 overflow-x-auto min-w-[800px] border-2 border-slate-800">
-            <div class="tv-board w-full py-4 rounded-2xl text-center mb-16"><strong>กระดาน / TV</strong></div>
-            <div class="grid grid-cols-4 gap-12 mt-10" id="seat-container">
+        <button onclick="showPage('news-page')" class="mb-6 text-slate-400 hover:text-white flex items-center gap-2">⬅ กลับหน้าหลัก</button>
+        <div class="glass rounded-[40px] p-6 md:p-10 overflow-x-auto border-2 border-slate-800 shadow-2xl">
+            <div class="tv-board w-full py-4 rounded-2xl text-center mb-16 shadow-lg"><strong>กระดาน / TV</strong></div>
+            <div class="grid grid-cols-4 gap-12 mt-10 min-w-[700px]">
                 <div class="grid grid-cols-2 gap-3" id="zone-1"></div>
                 <div class="grid grid-cols-2 gap-3" id="zone-2"></div>
                 <div class="grid grid-cols-2 gap-3" id="zone-3"></div>
@@ -50,22 +59,26 @@
     </div>
 
     <div id="vote-page" class="max-w-2xl mx-auto hidden-page py-10">
-        <button onclick="showPage('news-page')" class="mb-6">⬅ กลับหน้าหลัก</button>
-        <div class="glass p-8 rounded-3xl text-center">
-            <h2 class="text-2xl font-bold mb-8">🗳️ เปลี่ยนหัวหน้าหรือไม่?</h2>
-            <div class="grid grid-cols-2 gap-4 mb-8">
-                <button onclick="submitVote('no')" class="vote-card p-6 rounded-xl bg-slate-800 font-bold text-emerald-400">ไม่เปลี่ยน</button>
-                <button onclick="submitVote('yes')" class="vote-card p-6 rounded-xl bg-slate-800 font-bold text-red-400">เปลี่ยน</button>
+        <button onclick="showPage('news-page')" class="mb-6 text-slate-400 hover:text-white flex items-center gap-2">⬅ กลับหน้าหลัก</button>
+        <div class="glass p-8 rounded-3xl text-center shadow-xl">
+            <h2 class="text-2xl font-bold mb-10">🗳️ เปลี่ยนหัวหน้าหรือไม่?</h2>
+            <div class="grid grid-cols-2 gap-6 mb-10">
+                <button onclick="submitVote('no')" class="vote-card p-6 rounded-2xl bg-slate-800 font-bold text-emerald-400 border border-transparent hover:border-emerald-500 hover:bg-slate-700 transition">ไม่เปลี่ยน</button>
+                <button onclick="submitVote('yes')" class="vote-card p-6 rounded-2xl bg-slate-800 font-bold text-red-400 border border-transparent hover:border-red-500 hover:bg-slate-700 transition">เปลี่ยน</button>
             </div>
-            <div class="flex justify-between mb-2"><span>ไม่เปลี่ยน: <span id="count-no">0</span></span> <span>เปลี่ยน: <span id="count-yes">0</span></span></div>
-            <div class="w-full bg-slate-900 h-4 rounded-full flex overflow-hidden">
-                <div id="bar-no" class="h-full bg-emerald-500 transition-all duration-700"></div>
-                <div id="bar-yes" class="h-full bg-red-500 transition-all duration-700"></div>
+            <div class="flex justify-between mb-3 text-sm font-bold">
+                <span>ไม่เปลี่ยน: <span id="count-no" class="text-emerald-400">0</span></span>
+                <span>เปลี่ยน: <span id="count-yes" class="text-red-400">0</span></span>
+            </div>
+            <div class="w-full bg-slate-900 h-6 rounded-full flex overflow-hidden border border-slate-700">
+                <div id="bar-no" class="h-full bg-emerald-500 transition-all duration-1000 shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
+                <div id="bar-yes" class="h-full bg-red-500 transition-all duration-1000 shadow-[0_0_10px_rgba(239,68,68,0.5)]"></div>
             </div>
         </div>
     </div>
 
     <script>
+        // Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyCwVwkL25oDdrFCRKsb8f8XUnF5eg_LH_4",
             authDomain: "room924-wed.firebaseapp.com",
@@ -76,64 +89,113 @@
             appId: "1:259861481216:web:d02ba9ae58c7a598e395e5",
             measurementId: "G-KC1HW6KMFC"
         };
+        
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
         const ADMIN_PASS = "30102554"; 
         let currentUser = null;
+
         const students = { "52429":{name:"กนกธร",no:1}, "52430":{name:"กันต์ธีร์",no:2}, "52431":{name:"ชาญณรงค์",no:3}, "52432":{name:"ชินดนัย",no:4}, "52433":{name:"ณัฏฐธนัท",no:5}, "52434":{name:"ณัฏฐกรณ์",no:6}, "52435":{name:"ธนกฤช",no:7}, "52436":{name:"ธนพล",no:8}, "52437":{name:"ภัสกรณ์",no:9}, "52438":{name:"ปฏิภาณ",no:10}, "52439":{name:"ปวณ์รัฐ",no:11}, "52440":{name:"ปัณณวิชญ์",no:12}, "52441":{name:"พุฒิเศรษฐ์",no:13}, "52442":{name:"ภูมิศรัณย์",no:14}, "52443":{name:"มกรา",no:15}, "52444":{name:"เมธานันท์",no:16}, "52445":{name:"หฤษฎ์",no:17}, "52446":{name:"กรกณัฐ",no:18}, "52447":{name:"เกวลิน",no:19}, "52448":{name:"จิราภัสส์",no:20}, "52449":{name:"ฐิติยารัตน์",no:21}, "52450":{name:"ณัฐวิภรณ์",no:22}, "52451":{name:"ปพิชญา",no:23}, "52452":{name:"ปภาดา",no:24}, "52453":{name:"ปภาดา",no:25}, "52454":{name:"เปมิกา",no:26}, "52455":{name:"พิมพ์ชนก",no:27}, "52456":{name:"พิมพ์พิสาข์",no:28}, "52457":{name:"พิมพ์วิภา",no:29}, "52458":{name:"เพียงลดา",no:30}, "52459":{name:"ภัสรดา",no:31}, "52460":{name:"ภัสรดา",no:32}, "52461":{name:"สุพิชญ์นันท์",no:33}, "52462":{name:"อรนิชชา",no:34}, "52463":{name:"อรัญรดา",no:35}, "52464":{name:"อัญญภัสสร",no:36} };
         const seatMapping = { "zone-1": [1, 2, 9, 10, 17, 18, 25, 26, 31, 32], "zone-2": [3, 4, 11, 12, 19, 20, 27, 28, 33, 34], "zone-3": [5, 6, 13, 14, 21, 22, 29, 30, 35, 36], "zone-4": [7, 8, 15, 16, 23, 24] };
 
-        db.ref('seats').on('value', (s) => renderSeats(s.val() || {}));
-        db.ref('votes').on('value', (s) => updateVoteVisuals(s.val() || {yes:0, no:0}));
+        // Firebase Listeners
+        db.ref('seats').on('value', (snapshot) => {
+            renderSeats(snapshot.val() || {});
+        });
+        
+        db.ref('votes').on('value', (snapshot) => {
+            const data = snapshot.val() || { yes: 0, no: 0 };
+            updateVoteVisuals(data);
+        });
 
         function handleLogin() {
             const val = document.getElementById('login-id').value;
-            if (students[val]) { currentUser = {id:val, ...students[val]}; showPage('news-page'); document.getElementById('user-display').innerText = `สวัสดี: ${currentUser.name}`; }
+            if (students[val]) { 
+                currentUser = {id:val, ...students[val]}; 
+                showPage('news-page'); 
+                document.getElementById('user-display').innerText = `สวัสดี: ${currentUser.name} (เลขที่ ${currentUser.no})`; 
+            }
             else alert("ไม่พบเลขประจำตัว!");
         }
 
         function showPage(id) {
             ['login-page', 'news-page', 'seat-page', 'vote-page'].forEach(p => document.getElementById(p).classList.add('hidden-page'));
             document.getElementById(id).classList.remove('hidden-page');
+            window.scrollTo(0,0);
         }
 
-        function renderSeats(all) {
-            Object.keys(seatMapping).forEach(z => {
-                const el = document.getElementById(z); el.innerHTML = '';
-                seatMapping[z].forEach(n => {
-                    const d = all[n];
+        function renderSeats(allSeats) {
+            Object.keys(seatMapping).forEach(zoneId => {
+                const el = document.getElementById(zoneId);
+                if(!el) return;
+                el.innerHTML = '';
+                seatMapping[zoneId].forEach(seatNum => {
+                    const data = allSeats[seatNum];
                     const div = document.createElement('div');
-                    div.className = `seat rounded-2xl flex flex-col items-center justify-center p-2 text-center ${d ? 'occupied' : ''}`;
-                    div.innerHTML = `<span>${d ? '🧑‍🎓' : '🪑'}</span><span class="text-[10px] font-bold">${d ? d.nick : 'ที่ '+n}</span>`;
-                    div.onclick = () => d ? removeSeat(n) : selectSeat(n);
+                    div.className = `seat rounded-2xl flex flex-col items-center justify-center p-2 text-center transition shadow-sm ${data ? 'occupied' : 'hover:border-emerald-500/50'}`;
+                    div.innerHTML = `
+                        <span class="text-xl">${data ? '🧑‍🎓' : '🪑'}</span>
+                        <span class="text-[10px] font-bold mt-1">${data ? data.nick : 'ที่ ' + seatNum}</span>
+                        ${data ? `<span class="text-[8px] opacity-60">เลขที่ ${data.no}</span>` : ''}
+                    `;
+                    div.onclick = () => data ? removeSeat(seatNum) : selectSeat(seatNum);
                     el.appendChild(div);
                 });
             });
         }
 
         function selectSeat(n) {
-            const nick = prompt("ใส่ชื่อเล่นเพื่อจองที่นั่ง:");
-            if(nick) db.ref('seats/'+n).set({ nick, no: currentUser.no });
+            const nick = prompt("ใส่ชื่อเล่นเพื่อจองที่นั่งเบอร์ " + n + ":");
+            if(nick && nick.trim() !== "") {
+                db.ref('seats/' + n).set({ 
+                    nick: nick, 
+                    no: currentUser.no,
+                    uid: currentUser.id 
+                });
+            }
         }
 
         function removeSeat(n) {
-            if(prompt("รหัสแอดมินเพื่อลบ:") === ADMIN_PASS) db.ref('seats/'+n).remove();
+            const pass = prompt("ใส่รหัสแอดมินเพื่อลบที่นั่งเบอร์ " + n + ":");
+            if(pass === ADMIN_PASS) {
+                db.ref('seats/' + n).remove();
+            } else if (pass !== null) {
+                alert("รหัสผ่านไม่ถูกต้อง!");
+            }
         }
 
         function submitVote(t) {
-            if(localStorage.getItem('voted_'+currentUser.id)) return alert("คุณโหวตไปแล้ว!");
-            db.ref('votes/'+t).transaction(c => (c || 0) + 1);
-            localStorage.setItem('voted_'+currentUser.id, true);
+            const voteKey = 'voted_924_' + currentUser.id;
+            if(localStorage.getItem(voteKey)) return alert("คุณใช้สิทธิ์โหวตไปแล้ว!");
+            
+            db.ref('votes/' + t).transaction((currentValue) => {
+                return (currentValue || 0) + 1;
+            }).then(() => {
+                localStorage.setItem(voteKey, 'true');
+                alert("บันทึกการโหวตสำเร็จ!");
+            });
         }
 
         function updateVoteVisuals(v) {
-            const total = v.yes + v.no || 1;
-            document.getElementById('count-yes').innerText = v.yes;
-            document.getElementById('count-no').innerText = v.no;
-            document.getElementById('bar-yes').style.width = (v.yes/total*100) + "%";
-            document.getElementById('bar-no').style.width = (v.no/total*100) + "%";
+            const yes = v.yes || 0;
+            const no = v.no || 0;
+            const total = yes + no || 1;
+            
+            document.getElementById('count-yes').innerText = yes;
+            document.getElementById('count-no').innerText = no;
+            
+            const noWidth = (no / total * 100);
+            const yesWidth = (yes / total * 100);
+            
+            document.getElementById('bar-no').style.width = noWidth + "%";
+            document.getElementById('bar-yes').style.width = yesWidth + "%";
         }
-        function logout() { currentUser = null; showPage('login-page'); }
+
+        function logout() { 
+            currentUser = null; 
+            document.getElementById('login-id').value = '';
+            showPage('login-page'); 
+        }
     </script>
 </body>
 </html>
