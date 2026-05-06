@@ -11,32 +11,49 @@
     <style>
         body { font-family: 'Noto Sans Thai', sans-serif; background-color: #020617; color: white; }
         .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
-        .seat { background-color: #0f172a; border: 1px solid #1e293b; border-radius: 12px; transition: all 0.3s; cursor: pointer; min-height: 70px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
-        .seat.occupied { border-color: #3b82f6; background-color: rgba(59, 130, 246, 0.1); }
-        .tv-board { background: #064e3b; border: 1px solid #10b981; }
-        .teacher-desk { background: #1e293b; border: 1px solid #eab308; color: #eab308; padding: 5px 15px; border-radius: 10px; font-size: 14px; position: absolute; right: 20px; top: 80px; }
+        .seat { background-color: #1e293b; border: 1px solid #334155; transition: all 0.3s; cursor: pointer; min-height: 80px; }
+        .seat.occupied { border-color: #14b8a6; color: #5eead4; background-color: rgba(20, 184, 166, 0.1); }
+        .tv-board { background: linear-gradient(90deg, #064e3b, #065f46); border: 1px solid #10b981; }
         .hidden-page { display: none; }
+        .vote-card { transition: all 0.3s; border: 1px solid #1e293b; cursor: pointer; }
     </style>
 </head>
 <body class="p-4">
 
-    <div id="login-page" class="max-w-md mx-auto mt-20 p-8 glass rounded-3xl text-center shadow-2xl">
-        <h1 class="text-3xl font-bold mb-6 text-emerald-400">ห้อง 924 เรียลไทม์</h1>
-        <input type="number" id="login-id" placeholder="เลขประจำตัว 5 หลัก" class="w-full p-4 rounded-2xl bg-slate-900 border border-slate-700 mb-4 text-center text-xl text-white outline-none">
-        <button onclick="handleLogin()" class="w-full bg-emerald-500 py-4 rounded-2xl font-bold hover:bg-emerald-600 transition">เข้าสู่ระบบ</button>
+    <div id="login-page" class="max-w-md mx-auto mt-20 p-8 glass rounded-3xl text-center">
+        <h1 class="text-3xl font-bold mb-6 text-emerald-400">ยินดีต้อนรับสู่ห้อง 924</h1>
+        <p class="text-slate-400 mb-6 italic">กรุณาเข้าสู่ระบบด้วยเลขประจำตัว</p>
+        <input type="number" id="login-id" placeholder="เลขประจำตัว 5 หลัก" class="w-full p-4 rounded-2xl bg-slate-900 border border-slate-700 mb-4 text-center text-xl focus:outline-none focus:border-emerald-500 text-white">
+        <button onclick="handleLogin()" class="w-full bg-emerald-500 py-4 rounded-2xl font-bold text-lg hover:bg-emerald-600 transition">เข้าสู่ระบบ</button>
     </div>
 
-    <div id="seat-page" class="max-w-6xl mx-auto hidden-page py-6">
-        <div class="flex justify-between items-center mb-6">
-            <button onclick="showPage('news-page')" class="text-slate-400 hover:text-white">⬅ กลับหน้าหลัก</button>
-            <span id="user-display" class="text-emerald-400 font-bold"></span>
+    <div id="news-page" class="max-w-4xl mx-auto space-y-6 hidden-page py-10">
+        <div class="flex justify-between items-center px-4">
+            <span id="user-display" class="text-emerald-400 font-bold text-lg"></span>
+            <button onclick="logout()" class="text-xs text-slate-500 underline">ออกจากระบบ</button>
         </div>
+        <div class="glass p-8 rounded-3xl border-l-8 border-emerald-500 shadow-xl">
+            <h2 class="text-2xl font-bold mb-4">📢 ประกาศออนไลน์</h2>
+            <div class="space-y-3">
+                <div class="bg-slate-800/50 p-6 rounded-xl cursor-pointer hover:bg-slate-800 transition" onclick="showPage('seat-page')">
+                    <p class="font-bold text-emerald-400">📍 ผังที่นั่งออนไลน์ (Real-time)</p>
+                    <p class="text-sm text-slate-400">จองที่นั่งและดูข้อมูลเพื่อนในห้องได้ทันที</p>
+                </div>
+                <div class="bg-slate-800/50 p-6 rounded-xl cursor-pointer hover:bg-slate-800 transition" onclick="showPage('vote-page')">
+                    <p class="font-bold text-amber-400">🗳️ โพลล์เลือกหัวหน้าห้อง</p>
+                    <p class="text-sm text-slate-400">ร่วมโหวตการเปลี่ยนแปลงของห้อง 924</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        <div class="relative glass rounded-[20px] p-8 border-2 border-slate-800 shadow-2xl overflow-x-auto">
-            <div class="tv-board w-full py-3 rounded-xl text-center mb-16 shadow-lg">📺 กระดาน / TV</div>
-            <div class="teacher-desk">🎓 โต๊ะครู</div>
-
-            <div class="grid grid-cols-4 gap-x-12 gap-y-6 mt-10 min-w-[800px]">
+    <div id="seat-page" class="max-w-6xl mx-auto hidden-page py-10 text-center">
+        <button onclick="showPage('news-page')" class="mb-6 text-slate-400 flex items-center gap-2 mx-auto">⬅ กลับหน้าหลัก</button>
+        <div class="glass rounded-[40px] p-10 overflow-x-auto min-w-[800px] border-2 border-slate-800 shadow-2xl relative">
+            <div class="tv-board w-full py-4 rounded-2xl text-center mb-16 shadow-lg text-xl font-bold">กระดาน / TV</div>
+            <div class="absolute top-32 right-12 border-2 border-amber-500 text-amber-500 px-6 py-2 rounded-xl text-sm font-bold bg-amber-500/10">🎓 โต๊ะครู</div>
+            
+            <div class="grid grid-cols-4 gap-12 mt-10">
                 <div class="grid grid-cols-2 gap-3" id="zone-1"></div>
                 <div class="grid grid-cols-2 gap-3" id="zone-2"></div>
                 <div class="grid grid-cols-2 gap-3" id="zone-3"></div>
@@ -46,25 +63,26 @@
     </div>
 
     <div id="vote-page" class="max-w-2xl mx-auto hidden-page py-10">
-        <button onclick="showPage('news-page')" class="mb-6 text-slate-400 hover:text-white">⬅ กลับหน้าหลัก</button>
-        <div class="glass p-8 rounded-3xl text-center shadow-xl">
-            <h2 class="text-2xl font-bold mb-10">🗳️ เปลี่ยนหัวหน้าหรือไม่?</h2>
-            <div class="grid grid-cols-2 gap-6 mb-10">
-                <button onclick="submitVote('no')" class="p-6 rounded-2xl bg-slate-800 font-bold text-emerald-400 border border-transparent hover:border-emerald-500 transition">ไม่เปลี่ยน</button>
-                <button onclick="submitVote('yes')" class="p-6 rounded-2xl bg-slate-800 font-bold text-red-400 border border-transparent hover:border-red-500 transition">เปลี่ยน</button>
+        <button onclick="showPage('news-page')" class="mb-6 text-slate-400 flex items-center gap-2 mx-auto">⬅ กลับหน้าหลัก</button>
+        <div class="glass p-8 rounded-3xl text-center">
+            <h2 class="text-3xl font-bold mb-8 text-amber-400">🗳️ เปลี่ยนหัวหน้าห้องหรือไม่?</h2>
+            <div class="grid grid-cols-2 gap-4 mb-8">
+                <button onclick="submitVote('no')" class="vote-card p-6 rounded-xl bg-slate-800 font-bold text-emerald-400 hover:bg-slate-700 transition">ไม่เปลี่ยน</button>
+                <button onclick="submitVote('yes')" class="vote-card p-6 rounded-xl bg-slate-800 font-bold text-red-400 hover:bg-slate-700 transition">เปลี่ยน</button>
             </div>
-            <div class="flex justify-between mb-2 text-sm">
+            <div class="flex justify-between mb-2 text-sm font-bold">
                 <span>ไม่เปลี่ยน: <span id="count-no" class="text-emerald-400">0</span></span>
                 <span>เปลี่ยน: <span id="count-yes" class="text-red-400">0</span></span>
             </div>
-            <div class="w-full bg-slate-900 h-4 rounded-full flex overflow-hidden border border-slate-700">
-                <div id="bar-no" class="h-full bg-emerald-500 transition-all duration-1000"></div>
-                <div id="bar-yes" class="h-full bg-red-500 transition-all duration-1000"></div>
+            <div class="w-full bg-slate-900 h-6 rounded-full flex overflow-hidden border border-slate-700">
+                <div id="bar-no" class="h-full bg-emerald-500 transition-all duration-700"></div>
+                <div id="bar-yes" class="h-full bg-red-500 transition-all duration-700"></div>
             </div>
         </div>
     </div>
 
     <script>
+        // ตั้งค่า Firebase จากที่คุณให้มา
         const firebaseConfig = {
             apiKey: "AIzaSyCwVwkL25oDdrFCRKsb8f8XUnF5eg_LH_4",
             authDomain: "room924-wed.firebaseapp.com",
@@ -76,70 +94,73 @@
         };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
-        const ADMIN_PASS = "30102554";
+        const ADMIN_PASS = "30102554"; 
         let currentUser = null;
 
         const students = { "52429":{name:"กนกธร",no:1}, "52430":{name:"กันต์ธีร์",no:2}, "52431":{name:"ชาญณรงค์",no:3}, "52432":{name:"ชินดนัย",no:4}, "52433":{name:"ณัฏฐธนัท",no:5}, "52434":{name:"ณัฏฐกรณ์",no:6}, "52435":{name:"ธนกฤช",no:7}, "52436":{name:"ธนพล",no:8}, "52437":{name:"ภัสกรณ์",no:9}, "52438":{name:"ปฏิภาณ",no:10}, "52439":{name:"ปวณ์รัฐ",no:11}, "52440":{name:"ปัณณวิชญ์",no:12}, "52441":{name:"พุฒิเศรษฐ์",no:13}, "52442":{name:"ภูมิศรัณย์",no:14}, "52443":{name:"มกรา",no:15}, "52444":{name:"เมธานันท์",no:16}, "52445":{name:"หฤษฎ์",no:17}, "52446":{name:"กรกณัฐ",no:18}, "52447":{name:"เกวลิน",no:19}, "52448":{name:"จิราภัสส์",no:20}, "52449":{name:"ฐิติยารัตน์",no:21}, "52450":{name:"ณัฐวิภรณ์",no:22}, "52451":{name:"ปพิชญา",no:23}, "52452":{name:"ปภาดา",no:24}, "52453":{name:"ปภาดา",no:25}, "52454":{name:"เปมิกา",no:26}, "52455":{name:"พิมพ์ชนก",no:27}, "52456":{name:"พิมพ์พิสาข์",no:28}, "52457":{name:"พิมพ์วิภา",no:29}, "52458":{name:"เพียงลดา",no:30}, "52459":{name:"ภัสรดา",no:31}, "52460":{name:"ภัสรดา",no:32}, "52461":{name:"สุพิชญ์นันท์",no:33}, "52462":{name:"อรนิชชา",no:34}, "52463":{name:"อรัญรดา",no:35}, "52464":{name:"อัญญภัสสร",no:36} };
         const seatMapping = { "zone-1": [1, 2, 9, 10, 17, 18, 25, 26, 31, 32], "zone-2": [3, 4, 11, 12, 19, 20, 27, 28, 33, 34], "zone-3": [5, 6, 13, 14, 21, 22, 29, 30, 35, 36], "zone-4": [7, 8, 15, 16, 23, 24] };
 
-        // Realtime Listeners
-        db.ref('seats').on('value', (s) => renderSeats(s.val() || {}));
-        db.ref('votes').on('value', (s) => {
-            const data = s.val() || { yes: 0, no: 0 };
-            updateVoteVisuals(data);
+        // ดึงข้อมูล Real-time
+        db.ref('seats').on('value', (snapshot) => {
+            renderSeats(snapshot.val() || {});
+        });
+        db.ref('votes').on('value', (snapshot) => {
+            updateVoteVisuals(snapshot.val() || {yes:0, no:0});
         });
 
         function handleLogin() {
             const val = document.getElementById('login-id').value;
             if (students[val]) { 
                 currentUser = {id:val, ...students[val]}; 
-                showPage('seat-page'); // เข้าสู่หน้าผังที่นั่งโดยตรงตามที่ต้องการ
-                document.getElementById('user-display').innerText = `🧑‍🎓 ${currentUser.name}`;
+                showPage('news-page'); 
+                document.getElementById('user-display').innerText = `🙋‍♂️ คนจอง: ${currentUser.name} (เลขที่ ${currentUser.no})`; 
             } else alert("ไม่พบเลขประจำตัว!");
         }
 
         function showPage(id) {
-            ['login-page', 'seat-page', 'vote-page'].forEach(p => {
-                const el = document.getElementById(p);
-                if(el) el.classList.add('hidden-page');
-            });
+            ['login-page', 'news-page', 'seat-page', 'vote-page'].forEach(p => document.getElementById(p).classList.add('hidden-page'));
             document.getElementById(id).classList.remove('hidden-page');
+            window.scrollTo(0,0);
         }
 
-        function renderSeats(all) {
+        function renderSeats(allSeats) {
             Object.keys(seatMapping).forEach(z => {
-                const container = document.getElementById(z);
-                if(!container) return;
-                container.innerHTML = '';
+                const el = document.getElementById(z); el.innerHTML = '';
                 seatMapping[z].forEach(n => {
-                    const data = all[n];
+                    const d = allSeats[n];
                     const div = document.createElement('div');
-                    div.className = `seat ${data ? 'occupied' : ''}`;
+                    div.className = `seat rounded-2xl flex flex-col items-center justify-center p-2 text-center shadow-sm ${d ? 'occupied' : ''}`;
                     div.innerHTML = `
-                        <span class="text-lg">${data ? '👤' : '🪑'}</span>
-                        <span class="text-[11px] font-bold">${data ? data.nick : n}</span>
-                        ${data ? `<span class="text-[8px] opacity-50">#${data.no}</span>` : ''}
+                        <span class="text-[9px] opacity-40">ที่ ${n}</span>
+                        <span class="text-xl mb-1">${d ? '🧑‍🎓' : '🪑'}</span>
+                        ${d ? `<span class="text-[10px] leading-tight font-bold">${d.nick}<br>(#${d.no})</span>` : '<span class="text-[9px] text-slate-600 italic">ว่าง</span>'}
                     `;
-                    div.onclick = () => data ? removeSeat(n) : selectSeat(n);
-                    container.appendChild(div);
+                    div.onclick = () => d ? removeSeat(n) : selectSeat(n);
+                    el.appendChild(div);
                 });
             });
         }
 
         function selectSeat(n) {
-            const nick = prompt("ใส่ชื่อเล่นเพื่อจองที่นั่งเบอร์ " + n + ":");
-            if(nick) db.ref('seats/'+n).set({ nick, no: currentUser.no });
+            const nick = prompt("ใส่ชื่อเล่นเพื่อจองที่นั่ง:");
+            if(nick && nick.trim() !== "") {
+                db.ref('seats/'+n).set({ nick: nick, no: currentUser.no });
+            }
         }
 
         function removeSeat(n) {
-            if(prompt("รหัสแอดมินเพื่อลบ:") === ADMIN_PASS) db.ref('seats/'+n).remove();
+            if(prompt("รหัสแอดมินเพื่อลบที่นั่ง:") === ADMIN_PASS) {
+                db.ref('seats/'+n).remove();
+            } else {
+                alert("รหัสผ่านไม่ถูกต้อง!");
+            }
         }
 
         function submitVote(t) {
-            const vKey = 'voted_924_'+currentUser.id;
-            if(localStorage.getItem(vKey)) return alert("โหวตไปแล้ว!");
+            if(localStorage.getItem('voted_924_'+currentUser.id)) return alert("คุณโหวตไปแล้ว!");
             db.ref('votes/'+t).transaction(c => (c || 0) + 1);
-            localStorage.setItem(vKey, true);
+            localStorage.setItem('voted_924_'+currentUser.id, true);
+            alert("บันทึกการโหวตแล้ว!");
         }
 
         function updateVoteVisuals(v) {
@@ -151,6 +172,8 @@
             document.getElementById('bar-yes').style.width = (yes/total*100) + "%";
             document.getElementById('bar-no').style.width = (no/total*100) + "%";
         }
+        
+        function logout() { currentUser = null; showPage('login-page'); }
     </script>
 </body>
 </html>
